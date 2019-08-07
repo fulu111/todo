@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        		// 先给label标签注册双击事件
+		taskBox.on('dblclick', 'label', function () {
+			// 找到它的爷爷元素 li 给其添加class=editing
+			$(this).parents('li').addClass('editing');
+			// $(this).parent().next() 找到当前元素的父元素然后再找父元素的下一个兄弟元素
+			$(this).parent().next().val($(this).text());
+			$(this).parent().next().focus();
+		});
+		// 给class为edit的这个元素注册失去焦点事件 
+		taskBox.on('blur', '.edit', function () {
+			// 要获取到失去焦点后的value属性值 
+			var newTaskName = $(this).val();
+
+			var id = $(this).prev().children('button').attr('data-id');
+
+			
+			// 发送ajax
+			$.ajax({
+				type: 'post',
+				url: '/todo/modifyTask',
+				contentType: 'application/json',
+				data: JSON.stringify({ _id: id, title: newTaskName }),
+				success: function (res) {
+					// console.log(res);
+					// 我们需要再次调用render()要渲染数据  我们需要更新数组中的元素的值 
+					var task1 = taskAry.find(item => item._id == res._id);
+					//console.log(task1);
+					task1.title = res.title;
+
+					render();
+				}
+
+			});
+		});
+    
+    </script>
+</body>
+</html>
