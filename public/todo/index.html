@@ -256,22 +256,24 @@
 			});
 		});
 		
-		// $('.clear-completed').click(function(){
-		// 	$.ajax({
-		// 		type: 'get',
-		// 		url: '/todo/task',
-		// 		success: function (res) {
-
-		// 			// let index = taskAry.findIndex(item => item.completed==true);
-		// 			let newAry = taskAry.filter(item => item.completed==true);
-		// 			// console.log(newAry);
-		// 			// let sum = newAry.length;
-		// 			// taskAry.splice(index,sum);
-		// 			//拼接字符串  将拼接好的字符串显示在页面中
-		// 			render();
-		// 		}
-		// 	});
-		// });
+		$('.clear-completed').click(function(){
+			$.ajax({
+				type: 'get',
+				url: '/todo/clearTask',
+				success: function (res) {
+					// taskAry = res;
+					// taskAry = taskAry.filter(item => item.completed==false);
+					// for(let i=taskAry.length-1;i>=0;i--){
+					// 	if(taskAry[i].completed) {
+					// 		taskAry.splice(i,1);
+					// 	}
+					// }
+					taskAry=taskAry.filter(item=>item.completed==false);
+					//拼接字符串  将拼接好的字符串显示在页面中
+					render();
+				}
+			});
+		});
 	</script>
 </body>
 
